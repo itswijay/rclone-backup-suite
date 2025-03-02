@@ -31,7 +31,7 @@ This script automates daily backups for multiple folders, supports cloud storage
 ## Installation
 1. **Clone this repository**
    ```bash
-   git clone https://github.com/yourusername/rclone-backup-suite.git
+   git clone https://github.com/thewijay/rclone-backup-suite.git
    cd rclone-backup-suite
    ```
 2. **Configure backup settings**

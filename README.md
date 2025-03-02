@@ -34,12 +34,66 @@ This script automates daily backups for multiple folders, supports cloud storage
    git clone https://github.com/thewijay/rclone-backup-suite.git
    cd rclone-backup-suite
    ```
+
 2. **Configure backup settings**
    Edit the `configs/backup.conf` file to set backup paths and destinations.
+
+   ## Configuring Backup Settings
+Before running the backup, configure your settings in `configs/backup.conf`.
+
+### **Example `backup.conf` (Backup Folders & Cloud Storage)**
+```ini
+# Backup source directories (local paths)
+SOURCE_DIRS=(
+  "/home/user/Documents"
+  "/home/user/Pictures"
+  "/home/user/Projects"
+)
+
+# Remote storage location (configured via rclone)
+REMOTE_NAME="mygdrive"  # Name of rclone remote
+REMOTE_PATH="Backups/rclone-backup-suite"
+
+# Backup mode: "sync" (mirror) or "copy" (incremental)
+BACKUP_MODE="sync"
+
+# Retention settings (Keep last 7 backups)
+RETENTION_DAYS=7
+```
+📌 **Explanation:**  
+- **`SOURCE_DIRS`** → List of local directories to back up  
+- **`REMOTE_NAME`** → Name of your cloud storage configured in `rclone config`  
+- **`REMOTE_PATH`** → Remote directory to store backups  
+- **`BACKUP_MODE`** → `"sync"` (mirror files) or `"copy"` (only add changes)  
+- **`RETENTION_DAYS`** → Automatically delete backups older than 7 days  
+
+### **Example `email.conf` (Email Notifications)**
+```ini
+# Email settings for backup notifications
+SMTP_SERVER="smtp.gmail.com"
+SMTP_PORT=587
+SMTP_USER="your-email@gmail.com"
+SMTP_PASS="your-app-password"
+
+# Recipient email address
+EMAIL_TO="your-email@gmail.com"
+
+# Email subject formats
+EMAIL_SUBJECT_SUCCESS="Backup Success"
+EMAIL_SUBJECT_FAILURE="Backup Failure"
+```
+📌 **Explanation:**  
+- **`SMTP_SERVER`** → SMTP server of your email provider  
+- **`SMTP_PORT`** → Usually `587` for TLS (secure)  
+- **`SMTP_USER`** → Your email address  
+- **`SMTP_PASS`** → Use an **app password** (not your actual password)  
+- **`EMAIL_TO`** → Where to send notifications
+
 3. **Make scripts executable**
    ```bash
    chmod +x scripts/*.sh
    ```
+
 
 ## Usage
 ### **Run Backup Manually**
@@ -77,4 +131,3 @@ echo "Test email" | mail -s "Backup Test" your-email@example.com
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-

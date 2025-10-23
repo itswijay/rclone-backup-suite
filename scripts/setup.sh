@@ -38,6 +38,33 @@ else
     sed -i "s|/home/user|$USER_HOME|g" "$PROJECT_DIR/configs/backup.conf"
 fi
 
+# Email notification setup (optional)
+echo "Do you want to enable email notifications? (y/N):"
+read -r enable_email
+if [[ "$enable_email" =~ ^[Yy]$ ]]; then
+    # Enable email notifications in backup.conf
+    sed -i "s|ENABLE_EMAIL_NOTIFICATIONS=\"no\"|ENABLE_EMAIL_NOTIFICATIONS=\"yes\"|g" "$PROJECT_DIR/configs/backup.conf"
+    sed -i "s|ENABLE_EMAIL_NOTIFICATIONS=\"yes\"|ENABLE_EMAIL_NOTIFICATIONS=\"yes\"|g" "$PROJECT_DIR/configs/backup.conf"
+    # Prompt for email details
+    echo "Enter your email address for notifications:"
+    read -r email_recipient
+    sed -i "s|EMAIL_RECIPIENT=\".*\"|EMAIL_RECIPIENT=\"$email_recipient\"|g" "$PROJECT_DIR/configs/email.conf"
+    echo "Enter email subject for success (default: Backup Success):"
+    read -r email_subject_success
+    if [[ -n "$email_subject_success" ]]; then
+        sed -i "s|EMAIL_SUBJECT_SUCCESS=\".*\"|EMAIL_SUBJECT_SUCCESS=\"$email_subject_success\"|g" "$PROJECT_DIR/configs/email.conf"
+    fi
+    echo "Enter email subject for failure (default: Backup Failure):"
+    read -r email_subject_failure
+    if [[ -n "$email_subject_failure" ]]; then
+        sed -i "s|EMAIL_SUBJECT_FAILURE=\".*\"|EMAIL_SUBJECT_FAILURE=\"$email_subject_failure\"|g" "$PROJECT_DIR/configs/email.conf"
+    fi
+else
+    # Disable email notifications in backup.conf
+    sed -i "s|ENABLE_EMAIL_NOTIFICATIONS=\"yes\"|ENABLE_EMAIL_NOTIFICATIONS=\"no\"|g" "$PROJECT_DIR/configs/backup.conf"
+    sed -i "s|ENABLE_EMAIL_NOTIFICATIONS=\"no\"|ENABLE_EMAIL_NOTIFICATIONS=\"no\"|g" "$PROJECT_DIR/configs/backup.conf"
+fi
+
 echo "[INFO] Configuring Rclone..."
 echo "Please configure your cloud storage remote."
 echo "Choose a name for your remote (e.g., 'mygdrive', 'mydropbox')"

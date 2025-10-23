@@ -60,18 +60,9 @@ Execute the automated setup script:
 
 **What This Does:**
 
-- Installs `rclone` (if not already installed)
-- Installs `mailutils` or `mailx` (for email notifications)
-- Makes all scripts executable
-- Creates the `logs/` directory
-- Updates configuration files with your home directory path
-
 **Expected Prompts:**
 
 - You may be asked for your `sudo` password
-- Package installation confirmations
-
----
 
 ## Step 2: Configure Cloud Storage
 
